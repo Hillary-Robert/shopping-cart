@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import { shoppingCartContext } from '../../context/context';
 import { useNavigate } from 'react-router-dom';
+import { h1 } from 'framer-motion/client';
+import CartItem from '../../components/cartItem/CartItem';
 
 function CartList() {
   const navigate = useNavigate()
@@ -22,6 +24,12 @@ function CartList() {
 
         <div className='md:col-span-2 space-y-4'>
 
+          {
+            cartItems?.length ? cartItems.map(singleCartItem => <CartItem singleCartItem={singleCartItem}/>) 
+            
+            : <h1>No items in your Cart <button className='text-sm px-4 py-3 bg-black text-white font-bold' onClick={()=>navigate("/")}>Browse Items</button></h1>
+
+          }
 
 
         </div>
@@ -32,13 +40,17 @@ function CartList() {
           <ul className='text-gray-700 mt-4 space-y-2'>
 
             <p className='flex flex-wrap gap-4 text-sm font-bold'>
-              Total <span></span>
+              Total <span>
+                $ {cartItems.reduce((acc, currentItem)=>acc + currentItem.totalPrice, 0).toFixed(2)}
+              </span>
             </p>
 
           </ul>
 
           <div className='mt-5 space-y-2'>
-            <button className='text-sm px-4 py-3 bg-black text-white font-bold'>Checkout</button>
+            <button 
+            disabled={cartItems.length===0}
+            className='disabled:opacity-60 text-sm px-4 py-3 bg-black text-white font-bold'>Checkout</button>
 
             <button onClick={()=>navigate("/")} className='text-sm px-4 py-3 bg-transparent text-black font-bold ml-6 border border-black'>Continue Shopping</button>
           </div>

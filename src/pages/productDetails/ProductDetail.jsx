@@ -13,6 +13,7 @@ function ProductDetail() {
     productDetails,
     setProductDetails,
     handleAddToCart,
+    cartItems,
   } = useContext(shoppingCartContext);
 
   async function fetchProductDetails() {
@@ -103,7 +104,10 @@ function ProductDetail() {
             </div>
 
             <div>
-              <button onClick={()=>handleAddToCart(productDetails)} className="min-w-[200px] px-4 py-3 border border-[#333333] bg-transparent text-sm font-semibold rounded mt-5">
+              <button
+              disabled={cartItems.findIndex(item=> item.id === productDetails.id) > -1} 
+              onClick={()=>handleAddToCart(productDetails)} 
+              className="disabled:opacity-65 min-w-[200px] px-4 py-3 border border-[#333333] bg-transparent text-sm font-semibold rounded mt-5">
                 Add to cart
               </button>
 

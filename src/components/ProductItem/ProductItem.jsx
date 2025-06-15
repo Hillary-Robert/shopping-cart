@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { shoppingCartContext } from '../../context/context'
 
 function ProductItem({singleProduct}) {
   const navigate = useNavigate()
+  const {handleAddToCart, cartItems} = useContext(shoppingCartContext)
 
   function handleNavigateToProductDetailsPage(getCurrentProductId){
     navigate(`/product-details/${getCurrentProductId}`)
@@ -43,7 +45,11 @@ function ProductItem({singleProduct}) {
       </div>
 
 
-      <button onClick={()=>handleNavigateToProductDetailsPage(singleProduct?.id)} className='px-5 mt-5 w-full py-2 rounded-none bg-black text-white font-bold text-lg'>View Details</button>
+      <button onClick={()=>handleNavigateToProductDetailsPage(singleProduct?.id)} className='px-5 mt-5 w-full py-2 rounded-none bg-transparent border border-gray-500 text-black font-bold text-lg'>View Details</button>
+
+      <button
+      disabled={cartItems.findIndex(item=> item.id === singleProduct.id) > -1} 
+      onClick={()=>handleAddToCart(singleProduct)} className='disabled:opacity-65 px-5 mt-5 w-full py-2 rounded-none bg-black text-white font-bold text-lg'>Add to cart</button>
       
 
 
